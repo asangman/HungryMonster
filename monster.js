@@ -1,6 +1,6 @@
 class Monster
 {
-  constructor(m)
+  constructor(m, m2)
   {
     this.r = 150
     this.x = this.r;
@@ -8,6 +8,7 @@ class Monster
     this.vy = 0;
     this.gravity = 3;
     this.m = m;
+    this.m2 = m2;
   }
 
   jump()
@@ -19,18 +20,18 @@ class Monster
   {
     let x1 = this.x + 50;
     let y1 = this.y + 50;
-    let x2 = objects.x + 50;
-    let y2 = objects.y + 50;
-    return collideCircleCircle(x1, y1, 50, x2, y2, 50);
+    let x2 = objects.x + 75;
+    let y2 = objects.y + 75;
+    return collideCircleCircle(x1, y1, 50, x2, y2, 75);
   }
 
   hitsF(objects) 
   {
     let x1 = this.x + 50;
     let y1 = this.y + 50;
-    let x2 = objects.x + 75;
-    let y2 = objects.y + 75;
-    return collideCircleCircle(x1, y1, 50, x2, y2, 50);
+    let x2 = objects.x + 25;
+    let y2 = objects.y + 25;
+    return collideCircleCircle(x1, y1, 50, x2, y2, 25);
   }
 
   move()
@@ -45,8 +46,28 @@ class Monster
 
   show()
   {
-    // fill(0)
-    // rect(this.x,this.y,100,100);
-    image(this.m,this.x,this.y,this.r,this.r)
+    image(this.m,this.x,this.y,100,100)
+  }
+
+  showBack()
+  {
+    image(this.m2,this.x,this.y,100,100)
+  }
+
+  showDemo()
+  {
+    image(this.m,175,this.y,100,100)
+  }
+
+  moveDemo()
+  {
+    this.y += this.vy;
+    this.vy += this.gravity;
+    this.y = constrain(this.y, 0, 375);
+
+    if(this.y == 375)
+    {
+      this.jump();
+    }
   }
 }

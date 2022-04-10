@@ -40,10 +40,19 @@ var ex4_mouseMove;
 var ex4_px;
 var ex4_py;
 var ex4_pSpeed = 10;
-
+var ex4_levelOfDif;
+var ex4_levelOfDifObject;
+var ex4_buttonLevel1;
+var ex4_buttonLevel2;
+var ex4_buttonLevel3;
+var ex4_buttonLevel4;
+var ex4_buttonLevel1Big = false;
+var ex4_buttonLevel2Big = false;
+var ex4_buttonLevel3Big = false;
+var ex4_buttonLevel4Big = false;
 
 /////////// PlayPage ///////////////
-var ex4_gameSpeed = 5;
+var ex4_gameSpeed = 3;
 var ex4_speedx1 = 0;
 var ex4_speedx2;
 var ex4_speedx3 = 0;
@@ -97,6 +106,8 @@ var ex4_bg4s = 2;
 var ex4_bg5s = 3;
 var ex4_bg = [];
 var ex4_monster;
+var ex4_difficalty = 0.01;
+var ex4_oldM;
 
 /////////////////Score counting//////////////////////////
 var ex4_scoreCount = 0;
@@ -154,8 +165,17 @@ function preload()
   ex4_logo2 = loadImage('res\\exercise4\\logo2.png');
   ex4_jump1 = loadImage('res\\exercise4\\key1.png');
   ex4_jump2 = loadImage('res\\exercise4\\key2.png');
+  ex4_jumpLogo1 = loadImage('res\\exercise4\\jump1.png');
+  ex4_jumpLogo2 = loadImage('res\\exercise4\\jump2.png');
+  ex4_moveLogo1 = loadImage('res\\exercise4\\moveLogo1.png');
+  ex4_moveLogo2 = loadImage('res\\exercise4\\moveLogo2.png');
   ex4_mouseMove = loadImage('res\\exercise4\\mouse.png');
-  ex4_monsterPic = loadImage('res\\exercise4\\monster0.png');
+  ex4_monsterPic = loadImage('res\\exercise4\\monster.png');/////////////////monster pic//////////////////////////
+  ex4_monsterPic2 = loadImage('res\\exercise4\\monster0.png');/////////////////////monster pic///////////////////////
+  ex4_buttonLevel1 = loadImage('res\\exercise4\\buttonLevel1.png');
+  ex4_buttonLevel2 = loadImage('res\\exercise4\\buttonLevel2.png');
+  ex4_buttonLevel3 = loadImage('res\\exercise4\\buttonLevel3.png');
+  ex4_buttonLevel4 = loadImage('res\\exercise4\\buttonLevel4.png');
 }
 
 function setup() 
@@ -166,7 +186,7 @@ function setup()
   ex4_speedx6 = width;
   ex4_speedx8 = width;
   ex4_speedx10 = width;
-  monster = new Monster(ex4_monsterPic);
+  monster = new Monster(ex4_monsterPic, ex4_monsterPic2);
   ex4_f = [ex4_f0,ex4_f1,ex4_f2,ex4_f3,ex4_f4,ex4_f5,ex4_f6,
     ex4_f7,ex4_f8,ex4_f9,ex4_f10,ex4_f11,ex4_f12,ex4_f13,ex4_f14,ex4_f15,ex4_f16];
   ex4_s = [ex4_s1,ex4_s2,ex4_s3,ex4_s4,ex4_s5,ex4_s6,ex4_s7,ex4_s8,ex4_s9]
@@ -175,6 +195,8 @@ function setup()
   ex4_logo = ex4_logo1;
   ex4_jump = ex4_jump1;
   ex4_px = 800;
+  ex4_startPageSound.loop();
+  ex4_gameSong.loop();
 }
 
 function draw() 
@@ -182,6 +204,7 @@ function draw()
   switch(ex4At)
   {
     case 0:
+      ex4_gameSong.stop();
       if(!ex4_startPagesoundOn)
       {
         ex4_startPageSound.play();
@@ -193,16 +216,10 @@ function draw()
       ex4_startPage();
       break;
     case 1:
-      ex4_startPageSound.stop();
-      if(!ex4_gameSongOn)
-      {
-        ex4_gameSong.play();
-        ex4_gameSongOn = true;
-      }
-      ex4At = 2;
-      //prePlayPage();
+      prePlayPage();
       break;
     case 2:
+      ex4_startPageSound.stop();
       if(!ex4_gameSongOn)
       {
         ex4_gameSong.play();
@@ -228,10 +245,7 @@ function keyPressed()
     case 0:
       break;
     case 1:
-      if(key == ' ')
-      {
-        ex4At = 2;
-      }
+      
       break;
     case 2:
       if(key == ' ')
@@ -264,6 +278,53 @@ function mouseClicked()
       }
       break;
     case 1:
+      if(mouseX>1000 && mouseY>100 && mouseX<1350 && mouseY<175)
+      {
+        ex4_gameSpeed = 3;
+        ex4_bg1s = 0.5;
+        ex4_bg2s = 0.5;
+        ex4_bg3s = 1;
+        ex4_bg4s = 2;
+        ex4_bg5s = 3;
+        ex4_difficalty = 0.01;
+        ex4At = 2;
+      }
+
+      if(mouseX>1000 && mouseY>250 && mouseX<1350 && mouseY<325)
+      {
+        ex4_gameSpeed = 5;
+        ex4_bg1s = 2;
+        ex4_bg2s = 2;
+        ex4_bg3s = 3;
+        ex4_bg4s = 4;
+        ex4_bg5s = 5;
+        ex4_difficalty = 0.01;
+        ex4At = 2;
+      }
+
+      if(mouseX>1000 && mouseY>400 && mouseX<1350 && mouseY<475)
+      {
+        ex4_gameSpeed = 7;
+        ex4_bg1s = 4;
+        ex4_bg2s = 4;
+        ex4_bg3s = 5;
+        ex4_bg4s = 6;
+        ex4_bg5s = 7;
+        ex4_difficalty = 0.02;
+        ex4At = 2;
+      }
+
+      if(mouseX>1000 && mouseY>550 && mouseX<1350 && mouseY<625)
+      {
+        ex4_gameSpeed = 10;
+        ex4_bg1s = 7;
+        ex4_bg2s = 7;
+        ex4_bg3s = 8;
+        ex4_bg4s = 9;
+        ex4_bg5s = 10;
+        ex4_difficalty = 0.05;
+        ex4At = 2;
+      }
 
       break;
     case 2:
@@ -303,6 +364,46 @@ function mouseOver1()
         ex4_backbutton = ex4_buttonBack1;
       }
       break;
+
+    case 1:
+      if(mouseX>1000 && mouseY>100 && mouseX<1350 && mouseY<175)
+      {
+        ex4_buttonLevel1Big = true;
+      }
+      else
+      {
+        ex4_buttonLevel1Big = false;
+      }
+
+      if(mouseX>1000 && mouseY>250 && mouseX<1350 && mouseY<325)
+      {
+        ex4_buttonLevel2Big = true;
+      }
+      else
+      {
+        ex4_buttonLevel2Big = false;
+      }
+
+      if(mouseX>1000 && mouseY>400 && mouseX<1350 && mouseY<475)
+      {
+        ex4_buttonLevel3Big = true;
+      }
+      else
+      {
+        ex4_buttonLevel3Big = false;
+      }
+
+      if(mouseX>1000 && mouseY>550 && mouseX<1350 && mouseY<625)
+      {
+        ex4_buttonLevel4Big = true;
+      }
+      else
+      {
+        ex4_buttonLevel4Big = false;
+      }
+
+      break;
+
     case 3:
       if(mouseX>550 && mouseY>375 && mouseX<850 && mouseY<450)
       {
@@ -381,36 +482,104 @@ function ex4_startPage()
   } 
 }
 
-// function prePlayPage()
-// {
-//   background(ex4_BGStartPage);
-//   image(ex4_jump,250,450,250,100);
-//   ex4_preCount++
-//   fill(0)
-//   if(ex4_jump == ex4_jump1)
-//   {
-//     rect(325,50,100,100);
-//     ex4_jump = ex4_jump2;
-//     ex4_preCount = 0;
-//   }
-//   else
-//   {
-//     rect(325,300,100,100);
-//     ex4_jump = ex4_jump1;
-//     ex4_preCount = 0;
-//   }
+ /**
+  * @author Aphimon Sangmanee
+  * 
+  */
+function prePlayPage()
+{
+  background(ex4_BGStartPage);
+  // image(ex4_buttonLevel1,1000,100,300,75);
+  // image(ex4_buttonLevel2,1000,250,300,75);
+  // image(ex4_buttonLevel3,1000,400,300,75);
+  // image(ex4_buttonLevel4,1000,550,300,75);
 
-//   // fill(0)
-//   // rect(50,450,250,100);
-//   if(ex4_px < 800 || ex4_px > 1250)
-//   {
-//     ex4_pSpeed = ex4_pSpeed * (-1);
-//   }
-//   ex4_px += ex4_pSpeed;
-//   image(ex4_mouseMove,ex4_px,380,100,125);
-//   rect(ex4_px,150,100,100);
-//   // rect(1300,475,50,75);
-// }
+  let oldButton1 = ex4_buttonLevel1Big;
+  let oldButton2 = ex4_buttonLevel2Big;
+  let oldButton3 = ex4_buttonLevel3Big;
+  let oldButton4 = ex4_buttonLevel4Big;
+  mouseOver1()
+  let newButton1 = ex4_buttonLevel1Big;
+  let newButton2 = ex4_buttonLevel2Big;
+  let newButton3 = ex4_buttonLevel3Big;
+  let newButton4 = ex4_buttonLevel4Big;
+
+  if(oldButton1 != newButton1 || oldButton2 != newButton2 || oldButton3 != newButton3 || oldButton4 != newButton4)
+  {
+    if(oldButton1 != true && oldButton2 != true && oldButton3 != true && oldButton4 != true)
+    {
+      ex4_mouseOverSound.play();
+    }
+  }
+
+  if(ex4_buttonLevel1Big)
+  {
+    image(ex4_buttonLevel1,975,90,350,100);
+  }
+  else
+  {
+    image(ex4_buttonLevel1,1000,100,300,75);
+  }
+
+  if(ex4_buttonLevel2Big)
+  {
+    image(ex4_buttonLevel2,975,240,350,100); 
+  }
+  else
+  {
+    image(ex4_buttonLevel2,1000,250,300,75);  
+  }
+
+  if(ex4_buttonLevel3Big)
+  {
+    image(ex4_buttonLevel3,975,390,350,100);
+  }
+  else
+  {
+    image(ex4_buttonLevel3,1000,400,300,75);
+  }
+
+  if(ex4_buttonLevel4Big)
+  {
+    image(ex4_buttonLevel4,975,540,350,100);
+  }
+  else
+  {
+    image(ex4_buttonLevel4,1000,550,300,75);
+  }
+
+  image(ex4_jump,100,500,250,100);
+  ex4_preCount++
+  fill(0)
+  if(ex4_jump == ex4_jump1)
+  {
+    ex4_jump = ex4_jump2;
+    ex4_preCount = 0;
+    image(ex4_jumpLogo1,110,80,250,100);
+    image(ex4_moveLogo1,580,80,250,100);
+  }
+  else
+  {
+    ex4_jump = ex4_jump1;
+    ex4_preCount = 0;
+    image(ex4_jumpLogo2,110,80,250,100);
+    image(ex4_moveLogo2,580,80,250,100);
+  }
+
+  // fill(0)
+  // rect(50,450,250,100);
+  if(ex4_px < 500 || ex4_px > 800)
+  {
+    ex4_pSpeed = ex4_pSpeed * (-1);
+  }
+  ex4_px += ex4_pSpeed;
+  image(ex4_mouseMove,ex4_px,475,100,125);
+  image(ex4_monsterPic,ex4_px,275,100,100)
+  //rect(ex4_px,150,100,100);
+
+  monster.showDemo();
+  monster.moveDemo();
+}
 
 /**
  * @author Aphimon Sangmanee
@@ -419,20 +588,28 @@ function ex4_startPage()
  */
 function ex4_playPage()
 {
-  if(random(1) < (0.01))
+  if(random(1) < (ex4_difficalty))
   {
     fruits.push(new Fruits(ex4_gameSpeed,ex4_f[int(random([0],[17]))]));
   }
 
-  if(random(1) < (0.01 ))
+  if(random(1) < (ex4_difficalty))
   {
     spikes.push(new Spike(ex4_gameSpeed,ex4_s));
   }
 
   backgroundRunning();
-  // house.show();
-  monster.show();
+
   monster.move();
+  let newM = mouseX;
+  if(ex4_oldM > newM)
+  {
+    monster.showBack();
+  }
+  else
+  {
+    monster.show();
+  }
 
   for(let f of fruits)
   {
@@ -440,12 +617,13 @@ function ex4_playPage()
     f.show();
     if(monster.hitsF(f))
     {
+      ex4_scoreCount++;
       for(let i = 0; i < fruits.length; i++)
       {
         if(fruits[i] == f)
         {
           fruits.splice(i,1);
-          ex4_scoreCount++;
+          //ex4_scoreCount++;
           if(ex4_scoreCount % 10 == 0)
           {
             ex4_bellSound2.play();
@@ -480,6 +658,7 @@ function ex4_playPage()
   textSize(50);
   fill(ex4_colorCount);
   text('Score ' + ex4_scoreCount , 30, 50);
+  ex4_oldM = mouseX;
 }
 
 /**
