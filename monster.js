@@ -22,7 +22,7 @@ class Monster
     let y1 = this.y + 50;
     let x2 = objects.x + 75;
     let y2 = objects.y + 75;
-    return collideCircleCircle(x1, y1, 50, x2, y2, 75);
+    return collideCircleCircle(x1, y1, 50, x2, y2, 50);
   }
 
   hitsF(objects) 

@@ -18,7 +18,12 @@ var ex4_diedSound;
 var ex4_startPageSound;
 var ex4_startPagesoundOn = false;
 var ex4_gameSong;
+var ex4_gameSong1;
+var ex4_gameSong2;
+var ex4_gameSong3;
+var ex4_gameSong4;
 var ex4_gameSongOn = false;
+var ex4_gameHight = [225,250,275,300,325,350,375,400,425,450,475,500,525,150];
 
 ////////// Start Page //////////////
 var ex4_playbutton;
@@ -64,6 +69,7 @@ var ex4_speedx8;
 var ex4_speedx9 = 0;
 var ex4_speedx10;
 var ex4_fruitShow;
+var ex4_sAnimation;
 var ex4_f0;
 var ex4_f1;
 var ex4_f2;
@@ -83,17 +89,6 @@ var ex4_f15;
 var ex4_f16;
 var ex4_f17;
 var ex4_f;
-var ex4_s1;
-var ex4_s2;
-var ex4_s3;
-var ex4_s4;
-var ex4_s5;
-var ex4_s6;
-var ex4_s7;
-var ex4_s8;
-var ex4_s9;
-var ex4_s;
-var c;
 var ex4_bg1;
 var ex4_bg2;
 var ex4_bg3;
@@ -121,7 +116,10 @@ function preload()
   ex4_mouseOverSound = loadSound('res\\exercise4\\mouseOverSound.mp3');
   ex4_diedSound = loadSound('res\\exercise4\\diedSound.mp3');
   ex4_startPageSound = loadSound('res\\exercise4\\startPageSound.mp3');
-  ex4_gameSong = loadSound('res\\exercise4\\gameSong.mp3');
+  ex4_gameSong1 = loadSound('res\\exercise4\\gameSong1.mp3');
+  ex4_gameSong2 = loadSound('res\\exercise4\\gameSong2.mp3');
+  ex4_gameSong3 = loadSound('res\\exercise4\\gameSong3.mp3');
+  ex4_gameSong4 = loadSound('res\\exercise4\\gameSong4.mp3');
   ex4_BGStartPage = loadImage('res\\exercise4\\background.png');
   ex4_buttonPlay1 = loadImage('res\\exercise4\\button1.png');
   ex4_buttonPlay2 = loadImage('res\\exercise4\\button2.png');
@@ -129,6 +127,8 @@ function preload()
   ex4_buttonBack2 = loadImage('res\\exercise4\\toMainbutton2.png');
   ex4_buttonToStart1 = loadImage('res\\exercise4\\backButton1.png');
   ex4_buttonToStart2 = loadImage('res\\exercise4\\backButton2.png');
+  ex4_sAnimation = loadAnimation('res\\exercise4\\s1.png','res\\exercise4\\s2.png','res\\exercise4\\s3.png',
+  'res\\exercise4\\s4.png','res\\exercise4\\s5.png','res\\exercise4\\s6.png','res\\exercise4\\s7.png','res\\exercise4\\s8.png','res\\exercise4\\s9.png');
   ex4_f0 = loadImage('res\\exercise4\\1.png');
   ex4_f1 = loadImage('res\\exercise4\\2.png');
   ex4_f2 = loadImage('res\\exercise4\\3.png');
@@ -146,15 +146,6 @@ function preload()
   ex4_f14 = loadImage('res\\exercise4\\15.png');
   ex4_f15 = loadImage('res\\exercise4\\16.png');
   ex4_f16 = loadImage('res\\exercise4\\17.png');
-  ex4_s1 = loadImage('res\\exercise4\\s1.png');
-  ex4_s2 = loadImage('res\\exercise4\\s2.png');
-  ex4_s3 = loadImage('res\\exercise4\\s3.png');
-  ex4_s4 = loadImage('res\\exercise4\\s4.png');
-  ex4_s5 = loadImage('res\\exercise4\\s5.png');
-  ex4_s6 = loadImage('res\\exercise4\\s6.png');
-  ex4_s7 = loadImage('res\\exercise4\\s7.png');
-  ex4_s8 = loadImage('res\\exercise4\\s8.png');
-  ex4_s9 = loadImage('res\\exercise4\\s9.png');
   ex4_bg1 = loadImage('res\\exercise4\\bg1.png');
   ex4_bg2 = loadImage('res\\exercise4\\bg2.png');
   ex4_bg3 = loadImage('res\\exercise4\\bg3.png');
@@ -170,8 +161,8 @@ function preload()
   ex4_moveLogo1 = loadImage('res\\exercise4\\moveLogo1.png');
   ex4_moveLogo2 = loadImage('res\\exercise4\\moveLogo2.png');
   ex4_mouseMove = loadImage('res\\exercise4\\mouse.png');
-  ex4_monsterPic = loadImage('res\\exercise4\\monster.png');/////////////////monster pic//////////////////////////
-  ex4_monsterPic2 = loadImage('res\\exercise4\\monster0.png');/////////////////////monster pic///////////////////////
+  ex4_monsterPic = loadImage('res\\exercise4\\monster2.png');/////////////////monster pic//////////////////////////
+  ex4_monsterPic2 = loadImage('res\\exercise4\\monster1.png');/////////////////////monster pic///////////////////////
   ex4_buttonLevel1 = loadImage('res\\exercise4\\buttonLevel1.png');
   ex4_buttonLevel2 = loadImage('res\\exercise4\\buttonLevel2.png');
   ex4_buttonLevel3 = loadImage('res\\exercise4\\buttonLevel3.png');
@@ -180,6 +171,7 @@ function preload()
 
 function setup() 
 {
+  frameRate(60);
   createCanvas(1400, 700);
   ex4_speedx2 = width;
   ex4_speedx4 = width;
@@ -189,14 +181,11 @@ function setup()
   monster = new Monster(ex4_monsterPic, ex4_monsterPic2);
   ex4_f = [ex4_f0,ex4_f1,ex4_f2,ex4_f3,ex4_f4,ex4_f5,ex4_f6,
     ex4_f7,ex4_f8,ex4_f9,ex4_f10,ex4_f11,ex4_f12,ex4_f13,ex4_f14,ex4_f15,ex4_f16];
-  ex4_s = [ex4_s1,ex4_s2,ex4_s3,ex4_s4,ex4_s5,ex4_s6,ex4_s7,ex4_s8,ex4_s9]
-  c = 0;
   ex4_bg = [ex4_bg1,ex4_bg2,ex4_bg3,ex4_bg4,ex4_bg5]
   ex4_logo = ex4_logo1;
   ex4_jump = ex4_jump1;
   ex4_px = 800;
-  ex4_startPageSound.loop();
-  ex4_gameSong.loop();
+  ex4_gameSong = ex4_gameSong1;
 }
 
 function draw() 
@@ -204,10 +193,10 @@ function draw()
   switch(ex4At)
   {
     case 0:
-      ex4_gameSong.stop();
       if(!ex4_startPagesoundOn)
       {
-        ex4_startPageSound.play();
+        ex4_gameSong.stop();
+        ex4_startPageSound.loop();
         ex4_startPagesoundOn = true;
       }
       ex4_scoreCount = 0;
@@ -219,10 +208,10 @@ function draw()
       prePlayPage();
       break;
     case 2:
-      ex4_startPageSound.stop();
       if(!ex4_gameSongOn)
       {
-        ex4_gameSong.play();
+        ex4_startPageSound.stop();
+        ex4_gameSong.loop();
         ex4_gameSongOn = true;
       }
       ex4_playPage();
@@ -274,10 +263,12 @@ function mouseClicked()
       }
         else if(mouseX>550 && mouseY>475  && mouseX<850  && mouseY<550  )
       {
+        ex4_startPageSound.stop();
         at = 1;
       }
       break;
     case 1:
+
       if(mouseX>1000 && mouseY>100 && mouseX<1350 && mouseY<175)
       {
         ex4_gameSpeed = 3;
@@ -287,6 +278,7 @@ function mouseClicked()
         ex4_bg4s = 2;
         ex4_bg5s = 3;
         ex4_difficalty = 0.01;
+        ex4_gameSong = ex4_gameSong1;
         ex4At = 2;
       }
 
@@ -299,6 +291,7 @@ function mouseClicked()
         ex4_bg4s = 4;
         ex4_bg5s = 5;
         ex4_difficalty = 0.01;
+        ex4_gameSong = ex4_gameSong2;
         ex4At = 2;
       }
 
@@ -311,6 +304,7 @@ function mouseClicked()
         ex4_bg4s = 6;
         ex4_bg5s = 7;
         ex4_difficalty = 0.02;
+        ex4_gameSong = ex4_gameSong3;
         ex4At = 2;
       }
 
@@ -323,6 +317,7 @@ function mouseClicked()
         ex4_bg4s = 9;
         ex4_bg5s = 10;
         ex4_difficalty = 0.05;
+        ex4_gameSong = ex4_gameSong4;
         ex4At = 2;
       }
 
@@ -485,14 +480,13 @@ function ex4_startPage()
  /**
   * @author Aphimon Sangmanee
   * 
+  * @description This page will show the users the way to play
+  * the game including jump and move. This page also contain the selection of level.
+  * There are 4 available level for users to choose.
   */
 function prePlayPage()
 {
   background(ex4_BGStartPage);
-  // image(ex4_buttonLevel1,1000,100,300,75);
-  // image(ex4_buttonLevel2,1000,250,300,75);
-  // image(ex4_buttonLevel3,1000,400,300,75);
-  // image(ex4_buttonLevel4,1000,550,300,75);
 
   let oldButton1 = ex4_buttonLevel1Big;
   let oldButton2 = ex4_buttonLevel2Big;
@@ -566,8 +560,6 @@ function prePlayPage()
     image(ex4_moveLogo2,580,80,250,100);
   }
 
-  // fill(0)
-  // rect(50,450,250,100);
   if(ex4_px < 500 || ex4_px > 800)
   {
     ex4_pSpeed = ex4_pSpeed * (-1);
@@ -575,7 +567,6 @@ function prePlayPage()
   ex4_px += ex4_pSpeed;
   image(ex4_mouseMove,ex4_px,475,100,125);
   image(ex4_monsterPic,ex4_px,275,100,100)
-  //rect(ex4_px,150,100,100);
 
   monster.showDemo();
   monster.moveDemo();
@@ -584,7 +575,8 @@ function prePlayPage()
 /**
  * @author Aphimon Sangmanee
  * 
- * @description This page contains all of the implementation for the playPage
+ * @description This page contains all of the implementation for the playPage. 
+ * 
  */
 function ex4_playPage()
 {
@@ -595,7 +587,7 @@ function ex4_playPage()
 
   if(random(1) < (ex4_difficalty))
   {
-    spikes.push(new Spike(ex4_gameSpeed,ex4_s));
+    spikes.push(new Spike(ex4_gameSpeed,ex4_sAnimation,ex4_gameHight[int(random([0],[14]))]));
   }
 
   backgroundRunning();
@@ -623,7 +615,6 @@ function ex4_playPage()
         if(fruits[i] == f)
         {
           fruits.splice(i,1);
-          //ex4_scoreCount++;
           if(ex4_scoreCount % 10 == 0)
           {
             ex4_bellSound2.play();
@@ -641,20 +632,17 @@ function ex4_playPage()
   for(let s of spikes)
   {
     s.move();
-    if(c > 8)
-    {
-      c = 0
-    }
-    s.show(c);
-    c = c + 2;
-
+    s.show();
     if(monster.hitsS(s))
     {
       ex4_diedSound.play();
       ex4At = 3;
     }
+
   }
-  
+
+
+
   textSize(50);
   fill(ex4_colorCount);
   text('Score ' + ex4_scoreCount , 30, 50);
@@ -664,7 +652,8 @@ function ex4_playPage()
 /**
  * @author Aphimon Sangmanee
  * 
- * @description
+ * @description This page will show the score to the users. This page has 
+ * button to go back to the first page of the game.
  */
 function ex4_scorePage()
 {
@@ -700,7 +689,8 @@ function ex4_scorePage()
 /**
  * @author Aphimon Sangmanee
  * 
- * @description
+ * @description This fuction integrated 5 layers of background together 
+ * and run them at different according to the speed of the game and level.
  */
 function backgroundRunning()
 {
@@ -736,38 +726,39 @@ function backgroundRunning()
   ex4_speedx9 -= ex4_bg5s;
   ex4_speedx10 -= ex4_bg5s;
 
-  if (ex4_speedx1 < -width){
+
+  if (ex4_speedx1 < -width + ex4_bg5s){
     ex4_speedx1 = width;
   }
-  if (ex4_speedx2 < -width){
+  if (ex4_speedx2 < -width + ex4_bg5s){
     ex4_speedx2 = width;
   }
 
-  if (ex4_speedx3 < -width){
+  if (ex4_speedx3 < -width + ex4_bg5s){
     ex4_speedx3 = width;
   }
-  if (ex4_speedx4 < -width){
+  if (ex4_speedx4 < -width + ex4_bg5s){
     ex4_speedx4 = width;
   }
 
-  if (ex4_speedx5 < -width){
+  if (ex4_speedx5 < -width + ex4_bg5s){
     ex4_speedx5 = width;
   }
-  if (ex4_speedx6 < -width){
+  if (ex4_speedx6 < -width + ex4_bg5s){
     ex4_speedx6 = width;
   }
 
-  if (ex4_speedx7 < -width){
+  if (ex4_speedx7 < -width + ex4_bg5s){
     ex4_speedx7 = width;
   }
-  if (ex4_speedx8 < -width){
+  if (ex4_speedx8 < -width + ex4_bg5s){
     ex4_speedx8 = width;
   }
 
-  if (ex4_speedx9 < -width){
+  if (ex4_speedx9 < -width + ex4_bg5s){
     ex4_speedx9 = width;
   }
-  if (ex4_speedx10 < -width){
+  if (ex4_speedx10 < -width + ex4_bg5s){
     ex4_speedx10 = width;
   }
 }

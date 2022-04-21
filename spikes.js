@@ -1,8 +1,8 @@
 class Spike
 {
-  constructor(s,gs)
+  constructor(s,gs,r)
   {
-    this.r = random(150,600);
+    this.r = r;
     this.x = width;
     this.y = height - this.r;
     this.s = s;
@@ -14,8 +14,12 @@ class Spike
     this.x -= this.s;
   }
 
-  show(c)
+  show()
   {
-    image(this.gs[c],this.x,this.y,150,150)
+    // translate(this.x+75,this.y+75);
+    // rotate(CENTER);
+    //image(this.gs[c],this.x,this.y,150,150)
+    //translate(0,0);
+    animation(this.gs,this.x,this.y)
   }
 }
